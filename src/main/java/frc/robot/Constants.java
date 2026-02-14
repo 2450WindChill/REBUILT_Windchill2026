@@ -37,6 +37,13 @@ public final class Constants {
     KRAKEN
   }
 
+  public static final double SHOOTER_SPEED = 0.75;
+
+  // Motor ids for the shooters. Still need the actual IDs for the constants
+  public static final int SHOOTER_ONE_MOTOR_ID = 0;
+  public static final int SHOOTER_TWO_MOTOR_ID = 1;
+  public static final int INTAKE_MOTOR_ID = 1;
+
   /**
    * The left-to-right distance between the drivetrain wheels
    *

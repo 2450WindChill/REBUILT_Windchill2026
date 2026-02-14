@@ -7,11 +7,15 @@ package frc.robot;
 // import frc.robot.Constants.Camera;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.Constants.SwerveMode;
 // import frc.robot.Constants.autoConstants.ReefDirection;
 // import frc.robot.Constants.autoConstants.ReefLevel;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.ShooterCommandBoth;
 // import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.commands.ShooterCommandOne;
+import frc.robot.commands.ShooterCommandTwo;
 
 // import java.util.Vector;
 
@@ -36,9 +40,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 // import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
-  public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.NEO);
+  public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
   private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
 
@@ -64,6 +69,8 @@ public class RobotContainer {
   public final JoystickButton op_leftBumper = new JoystickButton(m_operatorController, Button.kLeftBumper.value);
   public final JoystickButton op_rightBumper = new JoystickButton(m_operatorController, Button.kRightBumper.value);
 
+  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
   public SendableChooser<Command> m_chooser;
   Timer timer = new Timer();
   double time = 0.0;
@@ -87,7 +94,15 @@ public class RobotContainer {
   }
 
   private void configureControllerBindings() {
+    // op_leftBumper.toggleOnTrue(new ShooterCommandOne(shooterSubsystem));
+    // op_rightBumper.toggleOnTrue(new ShooterCommandTwo(shooterSubsystem));
+    // op_aButton.toggleOnTrue(new ShooterCommandBoth(shooterSubsystem));
 
+    // bumpers bttons call the shooter command individually or using the A button it
+    // sets both. Speed is set as a constant in Constants
+    new Trigger(() -> m_driverController.getLeftBumperButton()).toggleOnTrue(new ShooterCommandOne(shooterSubsystem));
+    new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new ShooterCommandTwo(shooterSubsystem));
+    new Trigger(() -> m_driverController.getAButton()).toggleOnTrue(new ShooterCommandBoth(shooterSubsystem));
   }
 
   private void configureAutoChooser() {

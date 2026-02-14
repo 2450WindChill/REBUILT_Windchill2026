@@ -4,12 +4,19 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public IntakeSubsystem() {}
+  public final SparkFlex intakeMotor = new SparkFlex(Constants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+
+  public IntakeSubsystem() {
+  }
 
   /**
    * Example command factory method.
@@ -26,7 +33,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
@@ -43,5 +51,9 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public void setIntakeSpeed(double speed) {
+    intakeMotor.set(speed);
   }
 }
