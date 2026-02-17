@@ -13,6 +13,7 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.revrobotics.spark.SparkMax;
+
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -51,31 +52,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     CANBus canbus = new CANBus("canivore");
 
-    switch (myMode) {
-      case NEO:
-        swerveModules = new WindChillNeoSwerveModule[] {
-            new WindChillNeoSwerveModule(0, Constants.FrontLeftNeoModule.constants, canbus),
-            new WindChillNeoSwerveModule(1, Constants.FrontRightNeoModule.constants, canbus),
-            new WindChillNeoSwerveModule(2, Constants.BackLeftNeoModule.constants, canbus),
-            new WindChillNeoSwerveModule(3, Constants.BackRightNeoModule.constants, canbus) };
-        break;
-
-      case KRAKEN:
-        swerveModules = new WindChillKrakenSwerveModule[] {
-            new WindChillKrakenSwerveModule(0, Constants.FrontLeftKrakenModule.constants, canbus),
-            new WindChillKrakenSwerveModule(1, Constants.FrontRightKrakenModule.constants, canbus),
-            new WindChillKrakenSwerveModule(2, Constants.BackLeftKrakenModule.constants, canbus),
-            new WindChillKrakenSwerveModule(3, Constants.BackRightKrakenModule.constants, canbus) };
-        break;
-
-      default:
-        swerveModules = new WindChillKrakenSwerveModule[] {
-            new WindChillKrakenSwerveModule(0, Constants.FrontLeftKrakenModule.constants, canbus),
-            new WindChillKrakenSwerveModule(1, Constants.FrontRightKrakenModule.constants, canbus),
-            new WindChillKrakenSwerveModule(2, Constants.BackLeftKrakenModule.constants, canbus),
-            new WindChillKrakenSwerveModule(3, Constants.BackRightKrakenModule.constants, canbus) };
-        break;
-    }
+    swerveModules = switch (myMode) {
+      case NEO -> new WindChillNeoSwerveModule[] {
+          new WindChillNeoSwerveModule(0, Constants.FrontLeftNeoModule.constants, canbus),
+          new WindChillNeoSwerveModule(1, Constants.FrontRightNeoModule.constants, canbus),
+          new WindChillNeoSwerveModule(2, Constants.BackLeftNeoModule.constants, canbus),
+          new WindChillNeoSwerveModule(3, Constants.BackRightNeoModule.constants, canbus) };
+      case KRAKEN -> new WindChillKrakenSwerveModule[] {
+          new WindChillKrakenSwerveModule(0, Constants.FrontLeftKrakenModule.constants, canbus),
+          new WindChillKrakenSwerveModule(1, Constants.FrontRightKrakenModule.constants, canbus),
+          new WindChillKrakenSwerveModule(2, Constants.BackLeftKrakenModule.constants, canbus),
+          new WindChillKrakenSwerveModule(3, Constants.BackRightKrakenModule.constants, canbus) };
+      default -> new WindChillKrakenSwerveModule[] {
+          new WindChillKrakenSwerveModule(0, Constants.FrontLeftKrakenModule.constants, canbus),
+          new WindChillKrakenSwerveModule(1, Constants.FrontRightKrakenModule.constants, canbus),
+          new WindChillKrakenSwerveModule(2, Constants.BackLeftKrakenModule.constants, canbus),
+          new WindChillKrakenSwerveModule(3, Constants.BackRightKrakenModule.constants, canbus) };
+    };
 
     gyro = new Pigeon2(Constants.pigeonID, canbus);
 
