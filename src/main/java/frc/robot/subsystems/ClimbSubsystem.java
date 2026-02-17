@@ -1,3 +1,5 @@
+//TODO: write functions? idrk how the climb is going to work at all
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -9,7 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public ClimbSubsystem() {}
+  public ClimbSubsystem() {
+  }
 
   /**
    * Example command factory method.
@@ -26,7 +29,8 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
