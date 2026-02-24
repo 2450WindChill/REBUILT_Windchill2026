@@ -40,9 +40,13 @@ public final class Constants {
   public static final double SHOOTER_SPEED = 0.75;
 
   // Motor ids for the shooters. Still need the actual IDs for the constants
-  public static final int SHOOTER_ONE_MOTOR_ID = 98;
-  public static final int SHOOTER_TWO_MOTOR_ID = 99;
-  public static final int INTAKE_MOTOR_ID = 100;
+  public static final int SHOOTER_ONE_MOTOR_ID = 96;
+  public static final int SHOOTER_TWO_MOTOR_ID = 97;
+  public static final int SHOOTER_THREE_MOTOR_ID = 98;
+  public static final int SHOOTER_FOUR_MOTOR_ID = 99;
+  public static final int INTAKE_MOTOR_UP_AND_DOWN_ID = 100;
+  public static final int ITAKE_MOTOR_SPIN_ID = 101;
+  public static final int CLIMB_MOTOR_ID = 102;
 
   /**
    * The left-to-right distance between the drivetrain wheels
