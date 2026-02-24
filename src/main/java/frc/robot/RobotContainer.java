@@ -5,42 +5,19 @@
 package frc.robot;
 
 // import frc.robot.Constants.Camera;
-import frc.robot.Constants.ControllerConstants;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.Constants.SwerveMode;
-// import frc.robot.Constants.autoConstants.ReefDirection;
-// import frc.robot.Constants.autoConstants.ReefLevel;
-import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ShooterCommandBoth;
-// import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.commands.ShooterCommandOne;
-import frc.robot.commands.ShooterCommandTwo;
-
-// import java.util.Vector;
-
-// import com.pathplanner.lib.commands.PathPlannerAuto;
-
-// import edu.wpi.first.math.geometry.Translation2d;
-// import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-// import edu.wpi.first.wpilibj.event.BooleanEvent;
-// import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.Commands;
-// import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import edu.wpi.first.wpilibj2.command.WaitCommand;
-// import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-// import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.SwerveMode;
+import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
   public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
@@ -100,9 +77,12 @@ public class RobotContainer {
 
     // bumpers bttons call the shooter command individually or using the A button it
     // sets both. Speed is set as a constant in Constants
-    new Trigger(() -> m_driverController.getLeftBumperButton()).toggleOnTrue(new ShooterCommandOne(shooterSubsystem));
-    new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new ShooterCommandTwo(shooterSubsystem));
-    new Trigger(() -> m_driverController.getAButton()).toggleOnTrue(new ShooterCommandBoth(shooterSubsystem));
+    // new Trigger(() -> m_driverController.getLeftBumperButton()).toggleOnTrue(new
+    // ShooterCommandOne(shooterSubsystem));
+    // new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new
+    // ShooterCommandTwo(shooterSubsystem));
+    // new Trigger(() -> m_driverController.getAButton()).toggleOnTrue(new
+    // ShooterCommandBoth(shooterSubsystem));
   }
 
   private void configureAutoChooser() {

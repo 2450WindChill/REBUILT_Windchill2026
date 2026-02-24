@@ -40,9 +40,9 @@ public final class Constants {
   public static final double SHOOTER_SPEED = 0.75;
 
   // Motor ids for the shooters. Still need the actual IDs for the constants
-  public static final int SHOOTER_ONE_MOTOR_ID = 0;
-  public static final int SHOOTER_TWO_MOTOR_ID = 1;
-  public static final int INTAKE_MOTOR_ID = 1;
+  public static final int SHOOTER_ONE_MOTOR_ID = 98;
+  public static final int SHOOTER_TWO_MOTOR_ID = 99;
+  public static final int INTAKE_MOTOR_ID = 100;
 
   /**
    * The left-to-right distance between the drivetrain wheels
@@ -162,18 +162,18 @@ public final class Constants {
 
   /* Front Right Module - Module 1 */
   public static final class FrontRightKrakenModule {
-    public static final int driveMotorID = 12;
-    public static final int angleMotorID = 2;
-    public static final int canCoderID = 22;
+    public static final int driveMotorID = 13;
+    public static final int angleMotorID = 3;
+    public static final int canCoderID = 23;
     public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
         canCoderID);
   }
 
   /* Back Right Module - Module 3 */
   public static final class BackRightKrakenModule {
-    public static final int driveMotorID = 13;
-    public static final int angleMotorID = 3;
-    public static final int canCoderID = 23;
+    public static final int driveMotorID = 12;
+    public static final int angleMotorID = 2;
+    public static final int canCoderID = 22;
     public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
         canCoderID);
   }
