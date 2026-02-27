@@ -45,9 +45,11 @@ public final class Constants {
   public static final int SHOOTER_THREE_MOTOR_ID = 33;
   public static final int SHOOTER_FOUR_MOTOR_ID = 34;
   public static final int SHOOTER_INDEXER_ID = 35;
-  public static final int INTAKE_MOTOR_UP_AND_DOWN_ID = 41;
-  public static final int ITAKE_MOTOR_SPIN_ID = 42;
+  public static final int INTAKE_MOTOR_PIVOT_ID = 41;
+  public static final int INTAKE_MOTOR_SPIN_ID = 42;
   public static final int CLIMB_MOTOR_ID = 51;
+  public static final int PIVOT_MAX_DEGREES = 70; // WILL NEED TO CHANGE AND TEST!!!!!!!!!
+  public static final int PIVOT_MIN_DEGREES = 30;
 
   /**
    * The left-to-right distance between the drivetrain wheels

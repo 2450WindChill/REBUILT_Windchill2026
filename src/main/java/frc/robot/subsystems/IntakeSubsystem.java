@@ -6,18 +6,59 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public final SparkFlex intakeMotor = new SparkFlex(Constants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+
+  private static final double GEAR_RATIO = 20;
+  private static final double MOTOR_ROT_PER_DEG = GEAR_RATIO / 360;
+
+  private static final double STOW_DEG = 20;
+  private static final double DEPLOY_DEG = 60;
+  private static final MotionMagicVoltage mm = new MotionMagicVoltage(0.0);
+  public final SparkFlex intakeSpinMotor;
+  public final TalonFX intakePivotMotor;
 
   public IntakeSubsystem() {
+    intakeSpinMotor = new SparkFlex(Constants.INTAKE_MOTOR_SPIN_ID, MotorType.kBrushless);
+    SparkFlexConfig spinConfig = new SparkFlexConfig();
+    spinConfig
+        .idleMode(IdleMode.kCoast)
+        .smartCurrentLimit(70);
+    intakeSpinMotor.configure(spinConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    intakePivotMotor = new TalonFX(Constants.INTAKE_MOTOR_PIVOT_ID);
+    var pivotConfig = new TalonFXConfiguration();
+    pivotConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    pivotConfig.CurrentLimits.SupplyCurrentLimit = 35;
+    pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = 60;
+    pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = .2;
+    pivotConfig.Slot0.kP = 60;
+    pivotConfig.Slot0.kI = 0;
+    pivotConfig.Slot0.kD = 2;
+    pivotConfig.Slot0.kS = .2;
+    pivotConfig.Slot0.kV = 0;
+    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MAX_DEGREES);
+    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MIN_DEGREES);
+    pivotConfig.MotionMagic.MotionMagicCruiseVelocity = 40;
+    pivotConfig.MotionMagic.MotionMagicAcceleration = 80;
+    pivotConfig.MotionMagic.MotionMagicJerk = 800;
+    intakePivotMotor.getConfigurator().apply(pivotConfig);
   }
 
   /**
@@ -32,6 +73,31 @@ public class IntakeSubsystem extends SubsystemBase {
         () -> {
           /* one-time action goes here */
         });
+  }
+
+  public void intake() {
+    intakeSpinMotor.set(.7);
+  }
+
+  public void reverse() {
+    intakeSpinMotor.set(.7);
+  }
+
+  public void stopSpin() {
+    intakeSpinMotor.stopMotor();
+  }
+
+  public void stow() {
+    setPivotDeg(STOW_DEG);
+  }
+
+  public void deploy() {
+    setPivotDeg(DEPLOY_DEG);
+  }
+
+  public void setPivotDeg(double deg) {
+    double clamped = MathUtil.clamp(deg, Constants.PIVOT_MIN_DEGREES, Constants.PIVOT_MAX_DEGREES);
+    intakePivotMotor.setControl(mm.withPosition(degToMotorRot(clamped)));
   }
 
   /**
@@ -55,7 +121,10 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public void setIntakeSpeed(double speed) {
-    intakeMotor.set(speed);
+  private static double degToMotorRot(double degrees) {
+    return degrees * MOTOR_ROT_PER_DEG;
   }
+  // public void setIntakeSpeed(double speed) {
+  // intakeMotor.set(speed);
+  // }
 }
