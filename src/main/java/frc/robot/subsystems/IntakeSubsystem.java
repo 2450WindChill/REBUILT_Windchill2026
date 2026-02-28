@@ -13,8 +13,8 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,6 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
     pivotConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     pivotConfig.CurrentLimits.SupplyCurrentLimit = 35;
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = 60;
+    pivotConfig.
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = .2;
     pivotConfig.Slot0.kP = 60;
     pivotConfig.Slot0.kI = 0;
@@ -80,7 +81,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void reverse() {
-    intakeSpinMotor.set(.7);
+    intakeSpinMotor.set(-.7);
   }
 
   public void stopSpin() {

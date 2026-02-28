@@ -4,14 +4,11 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
-//import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-//import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class IntakeCommand extends Command {
+public class DeployIntakeCommand extends Command {
   @SuppressWarnings("PMD.UnusedPrivateField")
   private final IntakeSubsystem m_subsystem;
 
@@ -20,7 +17,7 @@ public class IntakeCommand extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeCommand(IntakeSubsystem subsystem) {
+  public DeployIntakeCommand(IntakeSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -29,7 +26,9 @@ public class IntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setIntakeSpeed(Constants.SHOOTER_SPEED);
+    m_subsystem.stopSpin();
+    m_subsystem.deploy();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,12 +39,12 @@ public class IntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.setIntakeSpeed(1);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
