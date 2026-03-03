@@ -17,6 +17,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -45,11 +46,10 @@ public class IntakeSubsystem extends SubsystemBase {
     pivotConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     pivotConfig.CurrentLimits.SupplyCurrentLimit = 35;
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = 60;
-    pivotConfig.
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = .2;
-    pivotConfig.Slot0.kP = 60;
+    pivotConfig.Slot0.kP = 25;
     pivotConfig.Slot0.kI = 0;
-    pivotConfig.Slot0.kD = 2;
+    pivotConfig.Slot0.kD = 0;
     pivotConfig.Slot0.kS = .2;
     pivotConfig.Slot0.kV = 0;
     pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
@@ -97,8 +97,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setPivotDeg(double deg) {
-    double clamped = MathUtil.clamp(deg, Constants.PIVOT_MIN_DEGREES, Constants.PIVOT_MAX_DEGREES);
-    intakePivotMotor.setControl(mm.withPosition(degToMotorRot(clamped)));
+    // double clamped = MathUtil.clamp(deg, Constants.PIVOT_MIN_DEGREES, Constants.PIVOT_MAX_DEGREES);
+    intakePivotMotor.setControl(mm.withPosition(clamped));
   }
 
   /**
@@ -115,6 +115,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("intakeAnglePosition", intakePivotMotor.getPosition().getValueAsDouble());
   }
 
   @Override

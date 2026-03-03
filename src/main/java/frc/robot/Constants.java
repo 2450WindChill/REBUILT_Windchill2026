@@ -49,7 +49,7 @@ public final class Constants {
   public static final int INTAKE_MOTOR_SPIN_ID = 42;
   public static final int CLIMB_MOTOR_ID = 51;
   public static final int PIVOT_MAX_DEGREES = 70; // WILL NEED TO CHANGE AND TEST!!!!!!!!!
-  public static final int PIVOT_MIN_DEGREES = 30;
+  public static final int PIVOT_MIN_DEGREES = 10;
 
   /**
    * The left-to-right distance between the drivetrain wheels
