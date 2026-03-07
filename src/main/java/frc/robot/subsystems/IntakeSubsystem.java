@@ -33,6 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private static final MotionMagicVoltage mm = new MotionMagicVoltage(0.0);
   public final SparkFlex intakeSpinMotor;
   public final TalonFX intakePivotMotor;
+  public final PositionVoltage p_req = new PositionVoltage(Constants.INTAKE_DOWN_ROTATIONS);
 
   public IntakeSubsystem() {
     intakeSpinMotor = new SparkFlex(Constants.INTAKE_MOTOR_SPIN_ID, MotorType.kBrushless);
@@ -48,15 +49,17 @@ public class IntakeSubsystem extends SubsystemBase {
     pivotConfig.CurrentLimits.SupplyCurrentLimit = 35;
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = 60;
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = .2;
-    pivotConfig.Slot0.kP = 1; //1
+    pivotConfig.Slot0.kP = 1; // 1
     pivotConfig.Slot0.kI = 1.2; // 1.2
-    pivotConfig.Slot0.kD = 0; //0
-    pivotConfig.Slot0.kS = .15; //.15
-    pivotConfig.Slot0.kV = 0; //0
+    pivotConfig.Slot0.kD = 0; // 0
+    pivotConfig.Slot0.kS = .15; // .15
+    pivotConfig.Slot0.kV = 0; // 0
     pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
     pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-    // pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MAX_DEGREES);
-    // pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MIN_DEGREES);
+    // pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
+    // degToMotorRot(Constants.PIVOT_MAX_DEGREES);
+    // pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
+    // degToMotorRot(Constants.PIVOT_MIN_DEGREES);
     pivotConfig.MotionMagic.MotionMagicCruiseVelocity = 40;
     pivotConfig.MotionMagic.MotionMagicAcceleration = 80;
     pivotConfig.MotionMagic.MotionMagicJerk = 800;
@@ -90,15 +93,20 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void retract() {
-    PositionVoltage p_req = new PositionVoltage(Constants.INTAKE_UP_ROTATIONS);
+    setPosition(Constants.INTAKE_UP_ROTATIONS);
   }
 
   public void deploy() {
-    PositionVoltage p_req = new PositionVoltage(Constants.INTAKE_DOWN_ROTATIONS);
+    setPosition(Constants.INTAKE_DOWN_ROTATIONS);
+  }
+
+  public void setPosition(double rotations) {
+    intakePivotMotor.setControl(p_req.withPosition(rotations));
   }
 
   public void setPivotDeg(double deg) {
-    // double clamped = MathUtil.clamp(deg, Constants.PIVOT_MIN_DEGREES, Constants.PIVOT_MAX_DEGREES);
+    // double clamped = MathUtil.clamp(deg, Constants.PIVOT_MIN_DEGREES,
+    // Constants.PIVOT_MAX_DEGREES);
     // intakePivotMotor.setControl(mm.withPosition(clamped));
   }
 
@@ -127,7 +135,5 @@ public class IntakeSubsystem extends SubsystemBase {
   private static double degToMotorRot(double degrees) {
     return degrees * MOTOR_ROT_PER_DEG;
   }
-  // public void setIntakeSpeed(double speed) {
-  // intakeMotor.set(speed);
-  // }
+
 }
