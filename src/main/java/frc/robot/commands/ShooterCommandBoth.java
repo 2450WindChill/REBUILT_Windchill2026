@@ -28,8 +28,8 @@ public class ShooterCommandBoth extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setSpeedShooterOne(Constants.SHOOTER_SPEED);
-    m_subsystem.setSpeedShooterOne(Constants.SHOOTER_SPEED);
+    // m_subsystem.setSpeedShooterOne(Constants.SHOOTER_SPEED);
+    // m_subsystem.setSpeedShooterOne(Constants.SHOOTER_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,8 +40,8 @@ public class ShooterCommandBoth extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.setSpeedShooterOne(0);
-    m_subsystem.setSpeedShooterTwo(0);
+    // m_subsystem.setSpeedShooterOne(0);
+    // m_subsystem.setSpeedShooterTwo(0);
   }
 
   // Returns true when the command should end.

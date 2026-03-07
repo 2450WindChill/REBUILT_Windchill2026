@@ -55,6 +55,7 @@ public final class Constants {
   public static final double INTAKE_DOWN_ROTATIONS = 3.0;
   public static final double INTAKE_UP_ROTATIONS = 5.0;
 
+  public static final double TARGET_SHOOTER_RPM = 450; //change later!!!!!!!!!!!!!!!!!!!!!!!!! <----
   /**
    * The left-to-right distance between the drivetrain wheels
    *
@@ -236,6 +237,7 @@ public final class Constants {
 
   public static final double moveToPoseSpeed = 0.05;
   public static final double moveToPoseRotationSpeed = 0.5;
+  public static final double RPM_TOLERANCE = 100; //maybe change later
 
   public static final class AutoConstants {
     public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(Math.PI,

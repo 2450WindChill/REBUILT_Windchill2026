@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 //import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -38,14 +39,40 @@ public class ShooterSubsystem extends SubsystemBase {
     followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
-  public void spinShoot(double voltage) {
-    leaderMotor.setVoltage(voltage);
+  public void spinShoot() {
+    leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
   }
 
-  public void spinIndex(double voltage) {
-    leaderMotor.setVoltage(voltage);
+  public void spinIndex() {
+    leaderMotor.setVoltage(Constants.INDEX_VOLTAGE);
   }
-  
+
+  public void stopShoot() {
+    leaderMotor.setVoltage(0);
+
+  }
+
+  public void stopIndex() {
+    indexMotor.setVoltage(0);
+  }
+
+  public Command shootWhileHeld() {
+    return Commands.sequence(
+        this.runOnce(() -> spinShoot()),
+        Commands.waitUntil(this::atSpeed),
+        Commands.startEnd(this::spinIndex, this::stopIndex, this))
+        .finallyDo(interupted -> {
+          stopIndex();
+          stopShoot();
+        });
+
+  }
+
+  public boolean atSpeed() {
+    double shooter_rpm = leaderMotor.getEncoder().getVelocity();
+    boolean atSpeed = Math.abs(shooter_rpm - Constants.TARGET_SHOOTER_RPM) <= Constants.RPM_TOLERANCE;
+    return atSpeed;
+  }
 
   /**
    * Example command factory method.

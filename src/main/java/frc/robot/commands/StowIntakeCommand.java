@@ -27,7 +27,7 @@ public class StowIntakeCommand extends Command {
   @Override
   public void initialize() {
     m_subsystem.stopSpin();
-    m_subsystem.stow();
+    // m_subsystem.stow();
 
   }
 

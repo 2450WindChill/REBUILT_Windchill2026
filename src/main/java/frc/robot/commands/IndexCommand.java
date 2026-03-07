@@ -28,7 +28,7 @@ public class IndexCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.spinIndex(Constants.INDEX_VOLTAGE);
+    m_subsystem.spinIndex();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +39,7 @@ public class IndexCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.spinIndex(0.0);
+    m_subsystem.stopIndex();
   }
 
   // Returns true when the command should end.

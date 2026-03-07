@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.SwerveMode;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ShootCommand;
+import frc.robot.commands.RevShootCommand;
 import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -25,6 +25,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
   private static final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+  private static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
   public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
   private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
@@ -87,7 +88,7 @@ public class RobotContainer {
     // new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new
     // ShooterCommandTwo(shooterSubsystem));
     new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(IntakeSubsystem));
-    new Trigger(() -> m_driverController.getYButton()).onTrue(new ShootCommand(IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
   }
 
   private void configureAutoChooser() {

@@ -28,7 +28,7 @@ public class RevShootCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.spinShoot(Constants.SHOOTER_VOLTAGE);
+    m_subsystem.spinShoot();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +39,7 @@ public class RevShootCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.spinShoot(0);
+    
   }
 
   // Returns true when the command should end.

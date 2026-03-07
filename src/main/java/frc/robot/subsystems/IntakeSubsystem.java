@@ -8,6 +8,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -77,23 +78,23 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intake() {
-    intakeSpinMotor.set(.7);
+    intakeSpinMotor.set(0.7);
   }
 
-  public void reverse() {
-    intakeSpinMotor.set(-.7);
+  public void outTake() {
+    intakeSpinMotor.set(-0.7);
   }
 
   public void stopSpin() {
     intakeSpinMotor.stopMotor();
   }
 
-  public void stow() {
-    setPivotDeg(STOW_DEG);
+  public void retract() {
+    PositionVoltage p_req = new PositionVoltage(Constants.INTAKE_UP_ROTATIONS);
   }
 
   public void deploy() {
-    setPivotDeg(DEPLOY_DEG);
+    PositionVoltage p_req = new PositionVoltage(Constants.INTAKE_DOWN_ROTATIONS);
   }
 
   public void setPivotDeg(double deg) {
