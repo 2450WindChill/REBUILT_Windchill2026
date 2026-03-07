@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.lang.ModuleLayer.Controller;
+
 // import frc.robot.Constants.Camera;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,7 +27,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
-  private static final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+  private static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
   public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
   private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
@@ -87,8 +90,18 @@ public class RobotContainer {
     // ShooterCommandOne(shooterSubsystem));
     // new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new
     // ShooterCommandTwo(shooterSubsystem));
-    new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(IntakeSubsystem));
+    new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
+    new Trigger(() -> m_operatorController.getXButton())
+        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
+
+    new Trigger(() -> m_operatorController.getYButton())
+        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getAButton())
+        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getBButton())
+        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
+
   }
 
   private void configureAutoChooser() {
