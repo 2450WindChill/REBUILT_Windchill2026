@@ -38,7 +38,8 @@ public final class Constants {
   }
 
   public static final double SHOOTER_SPEED = 0.75;
-
+  public static final double SHOOTER_VOLTAGE = 3;
+  public static final double INDEX_VOLTAGE = 3;
   // Motor ids for the shooters. Still need the actual IDs for the consta nts
   public static final int SHOOTER_ONE_MOTOR_ID = 31;
   public static final int SHOOTER_TWO_MOTOR_ID = 32;
@@ -50,6 +51,9 @@ public final class Constants {
   public static final int CLIMB_MOTOR_ID = 51;
   public static final int PIVOT_MAX_DEGREES = 70; // WILL NEED TO CHANGE AND TEST!!!!!!!!!
   public static final int PIVOT_MIN_DEGREES = 10;
+
+  public static final double INTAKE_DOWN_ROTATIONS = 3.0;
+  public static final double INTAKE_UP_ROTATIONS = 5.0;
 
   /**
    * The left-to-right distance between the drivetrain wheels

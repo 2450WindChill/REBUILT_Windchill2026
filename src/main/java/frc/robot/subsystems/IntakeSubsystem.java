@@ -47,15 +47,15 @@ public class IntakeSubsystem extends SubsystemBase {
     pivotConfig.CurrentLimits.SupplyCurrentLimit = 35;
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = 60;
     pivotConfig.CurrentLimits.SupplyCurrentLowerLimit = .2;
-    pivotConfig.Slot0.kP = 25;
-    pivotConfig.Slot0.kI = 0;
-    pivotConfig.Slot0.kD = 0;
-    pivotConfig.Slot0.kS = .2;
-    pivotConfig.Slot0.kV = 0;
-    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MAX_DEGREES);
-    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MIN_DEGREES);
+    pivotConfig.Slot0.kP = 1; //1
+    pivotConfig.Slot0.kI = 1.2; // 1.2
+    pivotConfig.Slot0.kD = 0; //0
+    pivotConfig.Slot0.kS = .15; //.15
+    pivotConfig.Slot0.kV = 0; //0
+    pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+    pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+    // pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MAX_DEGREES);
+    // pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = degToMotorRot(Constants.PIVOT_MIN_DEGREES);
     pivotConfig.MotionMagic.MotionMagicCruiseVelocity = 40;
     pivotConfig.MotionMagic.MotionMagicAcceleration = 80;
     pivotConfig.MotionMagic.MotionMagicJerk = 800;
@@ -98,7 +98,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setPivotDeg(double deg) {
     // double clamped = MathUtil.clamp(deg, Constants.PIVOT_MIN_DEGREES, Constants.PIVOT_MAX_DEGREES);
-    intakePivotMotor.setControl(mm.withPosition(clamped));
+    // intakePivotMotor.setControl(mm.withPosition(clamped));
   }
 
   /**

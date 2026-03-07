@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 //import com.revrobotics.spark.SparkMax;
 
@@ -15,12 +19,33 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  public final SparkFlex shooterMotorOne = new SparkFlex(Constants.SHOOTER_ONE_MOTOR_ID, MotorType.kBrushless);
-  public final SparkFlex shooterMotorTwo = new SparkFlex(Constants.SHOOTER_TWO_MOTOR_ID, MotorType.kBrushless);
+  public final SparkFlex leaderMotor = new SparkFlex(Constants.SHOOTER_ONE_MOTOR_ID, MotorType.kBrushless);
+  public final SparkFlex followerMotor = new SparkFlex(Constants.SHOOTER_TWO_MOTOR_ID, MotorType.kBrushless);
+  public final SparkFlex indexMotor = new SparkFlex(Constants.SHOOTER_INDEXER_ID, MotorType.kBrushless);
 
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {
+    SparkFlexConfig leaderConfig = new SparkFlexConfig();
+    leaderConfig
+        .idleMode(IdleMode.kCoast)
+        .smartCurrentLimit(70);
+    leaderMotor.configure(leaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    SparkFlexConfig followerConfig = new SparkFlexConfig();
+    followerConfig
+        .idleMode(IdleMode.kCoast)
+        .smartCurrentLimit(70).follow(leaderMotor, true);
+    followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
+
+  public void spinShoot(double voltage) {
+    leaderMotor.setVoltage(voltage);
+  }
+
+  public void spinIndex(double voltage) {
+    leaderMotor.setVoltage(voltage);
+  }
+  
 
   /**
    * Example command factory method.
@@ -57,11 +82,11 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public void setSpeedShooterOne(double speed) {
-    shooterMotorOne.set(speed);
-  }
+  // public void setSpeedShooterOne(double speed) {
+  // leaderMotor.set(speed);
+  // }
 
-  public void setSpeedShooterTwo(double speed) {
-    shooterMotorTwo.set(speed);
-  }
+  // public void setSpeedShooterTwo(double speed) {
+  // followerMotor.set(speed);
+  // }
 }

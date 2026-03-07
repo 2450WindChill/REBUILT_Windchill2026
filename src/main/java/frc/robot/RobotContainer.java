@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.SwerveMode;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DeployIntakeCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -87,7 +87,7 @@ public class RobotContainer {
     // new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new
     // ShooterCommandTwo(shooterSubsystem));
     new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(IntakeSubsystem));
-    new Trigger(() -> m_driverController.getYButton()).onTrue(new DeployIntakeCommand(IntakeSubsystem));
+    new Trigger(() -> m_driverController.getYButton()).onTrue(new ShootCommand(IntakeSubsystem));
   }
 
   private void configureAutoChooser() {
