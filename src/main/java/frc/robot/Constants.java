@@ -54,6 +54,8 @@ public final class Constants {
 
   public static final double INTAKE_DOWN_ROTATIONS = 3.0;
   public static final double INTAKE_UP_ROTATIONS = 5.0;
+  public static final double CLIMBER_EXTEND_ROTATIONS = 3.0; // don't know numbers
+  public static final double CLIMBER_RETRACT_ROTATIONS = 5.0; // don't know numbers
 
   public static final double TARGET_SHOOTER_RPM = 450; //change later!!!!!!!!!!!!!!!!!!!!!!!!! <----
   /**

@@ -25,9 +25,11 @@ import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class RobotContainer {
   private static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private static final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
   private static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
   public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
   private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
@@ -102,6 +104,10 @@ public class RobotContainer {
     new Trigger(() -> m_operatorController.getBButton())
         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
 
+    new Trigger(() -> m_operatorController.getYButton())
+        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.retract(), m_ClimberSubsystem));
+    new Trigger(() -> m_operatorController.getAButton())
+        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.extend(), m_ClimberSubsystem));
   }
 
   private void configureAutoChooser() {
