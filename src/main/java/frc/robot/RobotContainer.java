@@ -81,7 +81,7 @@ public class RobotContainer {
     return null;
   }
 
-  private void configureControllerBindings() {
+  private void configureTestControllerBindings() {
     // op_leftBumper.toggleOnTrue(new ShooterCommandOne(shooterSubsystem));
     // op_rightBumper.toggleOnTrue(new ShooterCommandTwo(shooterSubsystem));
     // op_aButton.toggleOnTrue(new ShooterCommandBoth(shooterSubsystem));
@@ -108,6 +108,12 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.retract(), m_ClimberSubsystem));
     new Trigger(() -> m_operatorController.getAButton())
         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.extend(), m_ClimberSubsystem));
+  }
+
+  private void configureCompControllerBindings() {
+    new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
+    new Trigger(() -> m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld()); 
+    new Trigger(() -> m_operatorController.getAButton()).whileTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem)).;
   }
 
   private void configureAutoChooser() {

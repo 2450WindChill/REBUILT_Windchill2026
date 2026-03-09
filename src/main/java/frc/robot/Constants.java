@@ -39,7 +39,9 @@ public final class Constants {
 
   public static final double SHOOTER_SPEED = 0.75;
   public static final double SHOOTER_VOLTAGE = 3;
+  public static final double LOAD_SHOOTER_VOLTAGE = -1;
   public static final double INDEX_VOLTAGE = 3;
+  public static final double LOAD_INDEX_VOLTAGE = 3;
   // Motor ids for the shooters. Still need the actual IDs for the consta nts
   public static final int SHOOTER_ONE_MOTOR_ID = 31;
   public static final int SHOOTER_TWO_MOTOR_ID = 32;

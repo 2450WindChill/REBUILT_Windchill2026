@@ -88,7 +88,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeSpinMotor.set(-0.7);
   }
 
-  public void stopSpin() {
+  public void stopIntake() {
     intakeSpinMotor.stopMotor();
   }
 

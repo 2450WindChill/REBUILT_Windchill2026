@@ -43,8 +43,16 @@ public class ShooterSubsystem extends SubsystemBase {
     leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
   }
 
+  public void loadShoot() {
+    leaderMotor.setVoltage(Constants.LOAD_SHOOTER_VOLTAGE);
+  }
+
   public void spinIndex() {
     leaderMotor.setVoltage(Constants.INDEX_VOLTAGE);
+  }
+
+  public void loadIndex() {
+    leaderMotor.setVoltage(Constants.LOAD_INDEX_VOLTAGE);
   }
 
   public void stopShoot() {
@@ -68,10 +76,27 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
+  public Command loadWhileHeld() {
+    return Commands.sequence(
+        this.runOnce(() -> loadShoot()),
+        Commands.startEnd(this::loadIndex, this::stopIndex, this))
+        .finallyDo(interupted -> {
+          stopIndex();
+          stopShoot();
+        });
+
+  }
+
   public boolean atSpeed() {
     double shooter_rpm = leaderMotor.getEncoder().getVelocity();
     boolean atSpeed = Math.abs(shooter_rpm - Constants.TARGET_SHOOTER_RPM) <= Constants.RPM_TOLERANCE;
     return atSpeed;
+  }
+
+  public boolean atLoadSpeed() {
+    double shooter_rpm = leaderMotor.getEncoder().getVelocity();
+    boolean atLoadSpeed = Math.abs(shooter_rpm - Constants.TARGET_SHOOTER_RPM) <= Constants.RPM_TOLERANCE;
+    return atLoadSpeed;
   }
 
   /**
