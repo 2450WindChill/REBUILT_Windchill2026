@@ -37,6 +37,11 @@ public class ShooterSubsystem extends SubsystemBase {
         .idleMode(IdleMode.kCoast)
         .smartCurrentLimit(70).follow(leaderMotor, true);
     followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    SparkFlexConfig indexConfig = new SparkFlexConfig();
+    indexConfig
+        .idleMode(IdleMode.kCoast)
+        .smartCurrentLimit(70);
+    indexMotor.configure(indexConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void spinShoot() {
@@ -48,7 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void spinIndex() {
-    leaderMotor.setVoltage(Constants.INDEX_VOLTAGE);
+    indexMotor.setVoltage(Constants.INDEX_VOLTAGE);
   }
 
   public void loadIndex() {

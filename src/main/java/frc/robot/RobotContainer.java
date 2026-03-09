@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.SwerveMode;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RevShootCommand;
 import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -57,8 +58,6 @@ public class RobotContainer {
   public final JoystickButton op_leftBumper = new JoystickButton(m_operatorController, Button.kLeftBumper.value);
   public final JoystickButton op_rightBumper = new JoystickButton(m_operatorController, Button.kRightBumper.value);
 
-  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-
   public SendableChooser<Command> m_chooser;
   Timer timer = new Timer();
   double time = 0.0;
@@ -73,7 +72,7 @@ public class RobotContainer {
             () -> Constants.isRobotCentric,
             () -> dr_leftBumper.getAsBoolean(),
             () -> m_driverController.getPOV()));
-    configureControllerBindings();
+    configureTestControllerBindings();
     configureAutoChooser();
   }
 
@@ -104,16 +103,16 @@ public class RobotContainer {
     new Trigger(() -> m_operatorController.getBButton())
         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
 
-    new Trigger(() -> m_operatorController.getYButton())
-        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.retract(), m_ClimberSubsystem));
-    new Trigger(() -> m_operatorController.getAButton())
-        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.extend(), m_ClimberSubsystem));
   }
 
   private void configureCompControllerBindings() {
     new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
-    new Trigger(() -> m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld()); 
-    new Trigger(() -> m_operatorController.getAButton()).whileTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem)).;
+    new Trigger(() -> m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld());
+    new Trigger(() -> m_operatorController.getAButton()).whileTrue(new IntakeCommand(m_IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getPOV() == 180)
+        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.retract(), m_ClimberSubsystem));
+    new Trigger(() -> m_operatorController.getPOV() == 0)
+        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.extend(), m_ClimberSubsystem));
   }
 
   private void configureAutoChooser() {

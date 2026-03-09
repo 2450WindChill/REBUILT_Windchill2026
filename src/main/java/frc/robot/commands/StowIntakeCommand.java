@@ -26,7 +26,7 @@ public class StowIntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.stopSpin();
+   // m_subsystem.stopSpin();
     // m_subsystem.stow();
 
   }
