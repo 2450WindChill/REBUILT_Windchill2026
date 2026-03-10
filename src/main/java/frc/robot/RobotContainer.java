@@ -29,7 +29,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class RobotContainer {
-  private static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  public static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private static final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
   private static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
   public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
@@ -70,7 +70,7 @@ public class RobotContainer {
             () -> (m_driverController.getLeftX()),
             () -> (m_driverController.getRightX()),
             () -> Constants.isRobotCentric,
-            () -> dr_leftBumper.getAsBoolean(),
+            () -> !dr_aButton.getAsBoolean(),
             () -> m_driverController.getPOV()));
     configureTestControllerBindings();
     configureAutoChooser();
@@ -93,15 +93,25 @@ public class RobotContainer {
     // ShooterCommandTwo(shooterSubsystem));
     new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
-    new Trigger(() -> m_operatorController.getXButton())
-        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
+    // new Trigger(() -> m_operatorController.getXButton())
+    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
 
     new Trigger(() -> m_operatorController.getYButton())
         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getYButton())
+        .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getAButton())
         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
+    // new Trigger(() -> m_operatorController.getBButton())
+    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getBButton())
-        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
+        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));
+    new Trigger(() -> m_operatorController.getBButton())
+        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));
+    new Trigger(() -> m_operatorController.getXButton())
+        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));
+    new Trigger(() -> m_operatorController.getXButton())
+        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));
 
   }
 
@@ -113,6 +123,8 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.retract(), m_ClimberSubsystem));
     new Trigger(() -> m_operatorController.getPOV() == 0)
         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.extend(), m_ClimberSubsystem));
+    new Trigger(() -> dr_startButton.getAsBoolean())
+        .onTrue(Commands.runOnce(() -> m_drivetrainSubsystem.zeroGyro(), m_drivetrainSubsystem));
   }
 
   private void configureAutoChooser() {

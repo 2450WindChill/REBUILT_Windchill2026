@@ -54,6 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void spinIndex() {
     indexMotor.setVoltage(Constants.INDEX_VOLTAGE);
+    System.out.println("TEST IS IT GETTING HERE!@@#$@#!#@@!#@!#@!#@//#endregion");
   }
 
   public void loadIndex() {
@@ -67,6 +68,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopIndex() {
     indexMotor.setVoltage(0);
+    System.out.println("STOPPPPPPPPPPPPPPPPPPPPPppps");
+
   }
 
   public Command shootWhileHeld() {

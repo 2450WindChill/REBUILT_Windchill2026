@@ -38,24 +38,26 @@ public final class Constants {
   }
 
   public static final double SHOOTER_SPEED = 0.75;
-  public static final double SHOOTER_VOLTAGE = 3;
+  public static final double SHOOTER_VOLTAGE = -3;
   public static final double LOAD_SHOOTER_VOLTAGE = -1;
-  public static final double INDEX_VOLTAGE = 3;
+  public static final double INDEX_VOLTAGE = -3;
   public static final double LOAD_INDEX_VOLTAGE = 3;
   // Motor ids for the shooters. Still need the actual IDs for the consta nts
   public static final int SHOOTER_ONE_MOTOR_ID = 31;
   public static final int SHOOTER_TWO_MOTOR_ID = 32;
-  public static final int SHOOTER_THREE_MOTOR_ID = 33;
-  public static final int SHOOTER_FOUR_MOTOR_ID = 34;
+  // public static final int SHOOTER_THREE_MOTOR_ID = 33;
+  // public static final int SHOOTER_FOUR_MOTOR_ID = 34;
   public static final int SHOOTER_INDEXER_ID = 35;
   public static final int INTAKE_MOTOR_PIVOT_ID = 41;
-  public static final int INTAKE_MOTOR_SPIN_ID = 42;
+  public static final int INTAKE_MOTOR_SPIN_ID = 33;
   public static final int CLIMB_MOTOR_ID = 51;
   public static final int PIVOT_MAX_DEGREES = 70; // WILL NEED TO CHANGE AND TEST!!!!!!!!!
-  public static final int PIVOT_MIN_DEGREES = 10;
+  public static final int PIVOT_MIN_DEGREES = 0;
 
-  public static final double INTAKE_DOWN_ROTATIONS = 3.0;
-  public static final double INTAKE_UP_ROTATIONS = 5.0;
+  public static final double INTAKE_DOWN_ROTATIONS = 8;
+  public static final double INTAKE_UP_ROTATIONS = 0;
+  public static final double OUTAKE_SPEED = 0.35;
+  public static final double INTAKE_SPEED = -0.35;
   public static final double CLIMBER_EXTEND_ROTATIONS = 3.0; // don't know numbers
   public static final double CLIMBER_RETRACT_ROTATIONS = 5.0; // don't know numbers
   public static final int POVUP = 0;

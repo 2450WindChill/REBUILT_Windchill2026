@@ -6,6 +6,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -63,6 +64,10 @@ public class IntakeSubsystem extends SubsystemBase {
     pivotConfig.MotionMagic.MotionMagicCruiseVelocity = 40;
     pivotConfig.MotionMagic.MotionMagicAcceleration = 80;
     pivotConfig.MotionMagic.MotionMagicJerk = 800;
+
+    MotorOutputConfigs pivOutConfigs = new MotorOutputConfigs();
+    pivOutConfigs.PeakForwardDutyCycle = .75;
+    pivOutConfigs.PeakForwardDutyCycle = -.75;
     intakePivotMotor.getConfigurator().apply(pivotConfig);
   }
 
@@ -81,11 +86,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intake() {
-    intakeSpinMotor.set(0.7);
+    intakeSpinMotor.set(Constants.INTAKE_SPEED);
   }
 
   public void outTake() {
-    intakeSpinMotor.set(-0.7);
+    intakeSpinMotor.set(Constants.OUTAKE_SPEED);
   }
 
   public void stopIntake() {
