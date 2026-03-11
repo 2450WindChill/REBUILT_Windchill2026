@@ -72,7 +72,7 @@ public class RobotContainer {
             () -> Constants.isRobotCentric,
             () -> !dr_aButton.getAsBoolean(),
             () -> m_driverController.getPOV()));
-    configureTestControllerBindings();
+    configureTestControllerBindings(); //change to configure comp!!!!!!!!!!
     configureAutoChooser();
   }
 
@@ -94,7 +94,8 @@ public class RobotContainer {
     new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
     // new Trigger(() -> m_operatorController.getXButton())
-    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
+    // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(),
+    // m_IntakeSubsystem));
 
     new Trigger(() -> m_operatorController.getYButton())
         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
@@ -103,7 +104,8 @@ public class RobotContainer {
     new Trigger(() -> m_operatorController.getAButton())
         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
     // new Trigger(() -> m_operatorController.getBButton())
-    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
+    // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(),
+    // m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getBButton())
         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));
     new Trigger(() -> m_operatorController.getBButton())
@@ -112,7 +114,10 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));
     new Trigger(() -> m_operatorController.getXButton())
         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));
-
+    new Trigger(() -> op_DownDpad.getAsBoolean())
+        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(-2), m_ClimberSubsystem));
+    new Trigger(() -> op_UpDpad.getAsBoolean())
+        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(2), m_ClimberSubsystem));
   }
 
   private void configureCompControllerBindings() {

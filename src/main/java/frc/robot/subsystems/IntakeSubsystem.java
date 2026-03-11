@@ -61,13 +61,13 @@ public class IntakeSubsystem extends SubsystemBase {
     // degToMotorRot(Constants.PIVOT_MAX_DEGREES);
     // pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
     // degToMotorRot(Constants.PIVOT_MIN_DEGREES);
-    pivotConfig.MotionMagic.MotionMagicCruiseVelocity = 40;
-    pivotConfig.MotionMagic.MotionMagicAcceleration = 80;
-    pivotConfig.MotionMagic.MotionMagicJerk = 800;
+    pivotConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+    pivotConfig.MotionMagic.MotionMagicAcceleration = 10;
+    pivotConfig.MotionMagic.MotionMagicJerk = 100;
 
     MotorOutputConfigs pivOutConfigs = new MotorOutputConfigs();
-    pivOutConfigs.PeakForwardDutyCycle = .75;
-    pivOutConfigs.PeakForwardDutyCycle = -.75;
+    pivOutConfigs.PeakForwardDutyCycle = .01;
+    pivOutConfigs.PeakForwardDutyCycle = -.01;
     intakePivotMotor.getConfigurator().apply(pivotConfig);
   }
 
@@ -106,7 +106,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setPosition(double rotations) {
-    intakePivotMotor.setControl(p_req.withPosition(rotations));
+    var request = new MotionMagicVoltage(0).withSlot(0);
+    intakePivotMotor.setControl(request.withPosition(rotations));
   }
 
   public void setPivotDeg(double deg) {

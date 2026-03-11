@@ -7,6 +7,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -46,9 +47,9 @@ public class ClimberSubsystem extends SubsystemBase {
     // degToMotorRot(Constants.PIVOT_MAX_DEGREES);
     // pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
     // degToMotorRot(Constants.PIVOT_MIN_DEGREES);
-    climbConfig.MotionMagic.MotionMagicCruiseVelocity = 40;
-    climbConfig.MotionMagic.MotionMagicAcceleration = 80;
-    climbConfig.MotionMagic.MotionMagicJerk = 800;
+    climbConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+    climbConfig.MotionMagic.MotionMagicAcceleration = 10;
+    climbConfig.MotionMagic.MotionMagicJerk = 100;
     climbMotor.getConfigurator().apply(climbConfig);
     climbMotor.setNeutralMode(NeutralModeValue.Brake);
 
@@ -88,9 +89,13 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setPosition(double rotations) {
-    climbMotor.setControl(p_req.withPosition(rotations));
+    var request = new MotionMagicVoltage(0).withSlot(0);
+    climbMotor.setControl(request.withPosition(rotations));
+    
   }
-
+public void manualMove(double voltage){
+  climbMotor.setVoltage(voltage);
+}
   @Override
   public void periodic() {
     SmartDashboard.putNumber("climberPosition", climbMotor.getPosition().getValueAsDouble());

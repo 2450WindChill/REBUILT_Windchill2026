@@ -29,12 +29,14 @@ public class ShooterSubsystem extends SubsystemBase {
     SparkFlexConfig leaderConfig = new SparkFlexConfig();
     leaderConfig
         .idleMode(IdleMode.kCoast)
+        .voltageCompensation(12)
         .smartCurrentLimit(70);
     leaderMotor.configure(leaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     SparkFlexConfig followerConfig = new SparkFlexConfig();
     followerConfig
         .idleMode(IdleMode.kCoast)
+        .voltageCompensation(12)
         .smartCurrentLimit(70).follow(leaderMotor, true);
     followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     SparkFlexConfig indexConfig = new SparkFlexConfig();
