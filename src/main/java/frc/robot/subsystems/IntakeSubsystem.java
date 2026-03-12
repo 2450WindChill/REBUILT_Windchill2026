@@ -97,6 +97,10 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeSpinMotor.stopMotor();
   }
 
+  public void stopOutTake() {
+    intakeSpinMotor.stopMotor();
+  }
+
   public void retract() {
     setPosition(Constants.INTAKE_UP_ROTATIONS);
   }

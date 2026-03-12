@@ -100,7 +100,7 @@ public class DefaultDriveCommand extends Command {
     } else {
       // Drive normally with joystick in field-centric
       m_driveTrainSubSystem.drive(
-          new Translation2d(translationVal, strafeVal).times(Constants.maxSpeed).times(.5),
+          new Translation2d(translationVal, strafeVal).times(Constants.maxSpeed),
           rotationVal * Constants.maxAngularVelocity,
           isRobotCentricSupplier.getAsBoolean(),
           isSlowMode.getAsBoolean());

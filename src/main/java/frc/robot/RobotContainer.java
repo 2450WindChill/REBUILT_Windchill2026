@@ -80,7 +80,7 @@ public class RobotContainer {
     return null;
   }
 
-  private void configureTestControllerBindings() {
+  //private void configureTestControllerBindings() {
     // op_leftBumper.toggleOnTrue(new ShooterCommandOne(shooterSubsystem));
     // op_rightBumper.toggleOnTrue(new ShooterCommandTwo(shooterSubsystem));
     // op_aButton.toggleOnTrue(new ShooterCommandBoth(shooterSubsystem));
@@ -88,14 +88,14 @@ public class RobotContainer {
     // bumpers bttons call the shooter command individually or using the A button it
     // sets both. Speed is set as a constant in Constants
     // new Trigger(() -> m_driverController.getLeftBumperButton()).toggleOnTrue(new
-    // ShooterCommandOne(shooterSubsystem));
+    // ShooterCommandOne(shooterSubsystem))
     // new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new
     // ShooterCommandTwo(shooterSubsystem));
    // new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(m_IntakeSubsystem));
     //new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
     // new Trigger(() -> m_operatorController.getXButton())
-    // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(),
-    // m_IntakeSubsystem));
+     //onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(),
+     //m_IntakeSubsystem));
 
    // new Trigger(() -> m_operatorController.getYButton())
        // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
@@ -118,7 +118,7 @@ public class RobotContainer {
 //         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(-2), m_ClimberSubsystem));
 //     new Trigger(() -> op_UpDpad.getAsBoolean())
 //         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(2), m_ClimberSubsystem));
-  }
+ // }
 
   private void configureCompControllerBindings() {
     //new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
@@ -132,6 +132,8 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));//this
     new Trigger(() -> m_operatorController.getYButton())
         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));//this
+    // new Trigger(() -> m_operatorController.getYButton())
+    //     .onTrue(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));//this
     new Trigger(() -> m_operatorController.getYButton())
         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));//this
     new Trigger(() -> m_operatorController.getAButton())
@@ -140,7 +142,15 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getXButton())
         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getRightBumperButton())
+     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
+     new Trigger(() -> m_operatorController.getLeftBumperButton())
+        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
+        new Trigger(() -> m_operatorController.getLeftBumperButton())
+        .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopOutTake(), m_IntakeSubsystem));
+        
   }
+
 
   private void configureAutoChooser() {
     m_chooser = new SendableChooser<>();

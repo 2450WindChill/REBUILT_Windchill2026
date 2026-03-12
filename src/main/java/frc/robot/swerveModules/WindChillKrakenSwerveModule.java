@@ -89,7 +89,7 @@ public class WindChillKrakenSwerveModule extends BaseWindChillSwerveModule {
     if (!isSlowMode) {
       driveMotor.set(percentOutput);
     } else {
-      driveMotor.set(percentOutput * 0.15);
+      driveMotor.set(percentOutput * 0.20);
     }
   }
 

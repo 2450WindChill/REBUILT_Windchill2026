@@ -63,6 +63,10 @@ public class ShooterSubsystem extends SubsystemBase {
     leaderMotor.setVoltage(Constants.LOAD_INDEX_VOLTAGE);
   }
 
+  public void reverseIndex() {
+    leaderMotor.setVoltage(Constants.REVERSE_INDEX_VOLTAGE);
+  }
+
   public void stopShoot() {
     leaderMotor.setVoltage(0);
 

@@ -42,6 +42,7 @@ public final class Constants {
   public static final double LOAD_SHOOTER_VOLTAGE = -1;
   public static final double INDEX_VOLTAGE = -1.5;
   public static final double LOAD_INDEX_VOLTAGE = 3;
+  public static final double REVERSE_INDEX_VOLTAGE = 3;
   // Motor ids for the shooters. Still need the actual IDs for the consta nts
   public static final int SHOOTER_ONE_MOTOR_ID = 31;
   public static final int SHOOTER_TWO_MOTOR_ID = 32;
@@ -57,7 +58,7 @@ public final class Constants {
   public static final double INTAKE_DOWN_ROTATIONS = 8;
   public static final double INTAKE_UP_ROTATIONS = 0;
   public static final double OUTAKE_SPEED = 0.35;
-  public static final double INTAKE_SPEED = -0.35;
+  public static final double INTAKE_SPEED = -0.30;
   public static final double CLIMBER_EXTEND_ROTATIONS = 3.0; // don't know numbers
   public static final double CLIMBER_RETRACT_ROTATIONS = 5.0; // don't know numbers
   public static final int POVUP = 0;
