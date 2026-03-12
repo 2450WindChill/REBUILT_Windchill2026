@@ -72,7 +72,7 @@ public class RobotContainer {
             () -> Constants.isRobotCentric,
             () -> !dr_aButton.getAsBoolean(),
             () -> m_driverController.getPOV()));
-    configureTestControllerBindings(); //change to configure comp!!!!!!!!!!
+    configureCompControllerBindings(); //change to configure comp!!!!!!!!!!
     configureAutoChooser();
   }
 
@@ -91,45 +91,55 @@ public class RobotContainer {
     // ShooterCommandOne(shooterSubsystem));
     // new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new
     // ShooterCommandTwo(shooterSubsystem));
-    new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(m_IntakeSubsystem));
-    new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
+   // new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(m_IntakeSubsystem));
+    //new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
     // new Trigger(() -> m_operatorController.getXButton())
     // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(),
     // m_IntakeSubsystem));
 
-    new Trigger(() -> m_operatorController.getYButton())
-        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
-    new Trigger(() -> m_operatorController.getYButton())
-        .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
-    new Trigger(() -> m_operatorController.getAButton())
-        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
+   // new Trigger(() -> m_operatorController.getYButton())
+       // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
+    //ew Trigger(() -> m_operatorController.getYButton())
+        //.onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
+    //new Trigger(() -> m_operatorController.getAButton())
+        //.onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
     // new Trigger(() -> m_operatorController.getBButton())
     // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(),
     // m_IntakeSubsystem));
-    new Trigger(() -> m_operatorController.getBButton())
-        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));
-    new Trigger(() -> m_operatorController.getBButton())
-        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));
-    new Trigger(() -> m_operatorController.getXButton())
-        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));
-    new Trigger(() -> m_operatorController.getXButton())
-        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));
-    new Trigger(() -> op_DownDpad.getAsBoolean())
-        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(-2), m_ClimberSubsystem));
-    new Trigger(() -> op_UpDpad.getAsBoolean())
-        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(2), m_ClimberSubsystem));
+//     new Trigger(() -> m_operatorController.getBButton())
+//         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));//this
+//     new Trigger(() -> m_operatorController.getBButton())
+//         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));//this
+//     new Trigger(() -> m_operatorController.getXButton())
+//         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));//this
+//     new Trigger(() -> m_operatorController.getXButton())
+//         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));//this
+//     new Trigger(() -> op_DownDpad.getAsBoolean())
+//         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(-2), m_ClimberSubsystem));
+//     new Trigger(() -> op_UpDpad.getAsBoolean())
+//         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(2), m_ClimberSubsystem));
   }
 
   private void configureCompControllerBindings() {
-    new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
-    new Trigger(() -> m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld());
-    new Trigger(() -> m_operatorController.getAButton()).whileTrue(new IntakeCommand(m_IntakeSubsystem));
-    new Trigger(() -> m_operatorController.getPOV() == 180)
-        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.retract(), m_ClimberSubsystem));
-    new Trigger(() -> m_operatorController.getPOV() == 0)
-        .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.extend(), m_ClimberSubsystem));
+    //new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
+    //new Trigger(() -> m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld());
+    //new Trigger(() -> m_operatorController.getAButton()).whileTrue(new IntakeCommand(m_IntakeSubsystem));
     new Trigger(() -> dr_startButton.getAsBoolean())
         .onTrue(Commands.runOnce(() -> m_drivetrainSubsystem.zeroGyro(), m_drivetrainSubsystem));
+    new Trigger(() -> m_operatorController.getBButton())//this
+        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));//this
+    new Trigger(() -> m_operatorController.getBButton())
+        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));//this
+    new Trigger(() -> m_operatorController.getYButton())
+        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));//this
+    new Trigger(() -> m_operatorController.getYButton())
+        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));//this
+    new Trigger(() -> m_operatorController.getAButton())
+        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getAButton())
+        .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
+    new Trigger(() -> m_operatorController.getXButton())
+        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
   }
 
   private void configureAutoChooser() {
