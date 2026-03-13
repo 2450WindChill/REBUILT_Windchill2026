@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,14 +27,14 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RevShootCommand;
 import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+//import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class RobotContainer {
-  public static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  //public static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private static final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
-  private static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
+  public static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
   public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
   private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
@@ -70,14 +73,33 @@ public class RobotContainer {
             () -> (m_driverController.getLeftX()),
             () -> (m_driverController.getRightX()),
             () -> Constants.isRobotCentric,
-            () -> !dr_aButton.getAsBoolean(),
+            () -> !dr_rightBumper.getAsBoolean(),
             () -> m_driverController.getPOV()));
     configureCompControllerBindings(); //change to configure comp!!!!!!!!!!
     configureAutoChooser();
+
   }
 
   public Command getAutonomousCommand() {
+
+    // return new SequentialCommandGroup(
+    //     new InstantCommand(() -> 
+    // m_shooterSubsytem.spinShoot(),
+    // m_shooterSubsytem),
+    // new WaitCommand(2),
+    // new InstantCommand(() -> 
+    // m_shooterSubsytem.spinIndex(),
+    // m_shooterSubsytem),
+    // new WaitCommand(6),
+    // new InstantCommand(() ->
+    // m_shooterSubsytem.stopIndex(),
+    // m_shooterSubsytem),
+    // new InstantCommand(() -> 
+    // m_shooterSubsytem.stopShoot(),
+    // m_shooterSubsytem)
+    // );
     return null;
+
   }
 
   //private void configureTestControllerBindings() {
@@ -124,30 +146,38 @@ public class RobotContainer {
     //new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
     //new Trigger(() -> m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld());
     //new Trigger(() -> m_operatorController.getAButton()).whileTrue(new IntakeCommand(m_IntakeSubsystem));
-    new Trigger(() -> dr_startButton.getAsBoolean())
+    // new Trigger(() -> m_operatorCont
+    //roller.getYButton())
+    //     .onTrue(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));//this
+     // new Trigger(() -> m_operatorController.getXButton())
+    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
+    //DRIVER CONTROLS
+    new Trigger(() -> dr_aButton.getAsBoolean())
         .onTrue(Commands.runOnce(() -> m_drivetrainSubsystem.zeroGyro(), m_drivetrainSubsystem));
+    // new Trigger(() -> dr_xButton.getAsBoolean())
+    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
+    // new Trigger(() -> dr_bButton.getAsBoolean())
+    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
+
+    //OPERATOR CONTROLS
     new Trigger(() -> m_operatorController.getBButton())//this
         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));//this
     new Trigger(() -> m_operatorController.getBButton())
         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));//this
     new Trigger(() -> m_operatorController.getYButton())
         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));//this
-    // new Trigger(() -> m_operatorController.getYButton())
-    //     .onTrue(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));//this
     new Trigger(() -> m_operatorController.getYButton())
         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));//this
-    new Trigger(() -> m_operatorController.getAButton())
-        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
-    new Trigger(() -> m_operatorController.getAButton())
-        .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
     new Trigger(() -> m_operatorController.getXButton())
-        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
-    new Trigger(() -> m_operatorController.getRightBumperButton())
-     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
-     new Trigger(() -> m_operatorController.getLeftBumperButton())
-        .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
-        new Trigger(() -> m_operatorController.getLeftBumperButton())
-        .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopOutTake(), m_IntakeSubsystem));
+        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));//this
+    // new Trigger(() -> m_operatorController.getAButton())
+    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
+    // new Trigger(() -> m_operatorController.getAButton())
+    //     .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
+    // new Trigger(() -> m_operatorController.getRightBumperButton())
+    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
+    // new Trigger(() -> m_operatorController.getRightBumperButton())
+    //     .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopOutTake(), m_IntakeSubsystem));
         
   }
 

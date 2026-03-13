@@ -47,7 +47,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void spinShoot() {
-    leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
+    //leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
+    leaderMotor.set(-.8);
   }
 
   public void loadShoot() {

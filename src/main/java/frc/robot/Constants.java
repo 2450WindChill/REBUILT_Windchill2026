@@ -38,9 +38,9 @@ public final class Constants {
   }
 
   public static final double SHOOTER_SPEED = 0.75;
-  public static final double SHOOTER_VOLTAGE = -6;
+  public static final double SHOOTER_VOLTAGE = -8;
   public static final double LOAD_SHOOTER_VOLTAGE = -1;
-  public static final double INDEX_VOLTAGE = -1.5;
+  public static final double INDEX_VOLTAGE = -.5;
   public static final double LOAD_INDEX_VOLTAGE = 3;
   public static final double REVERSE_INDEX_VOLTAGE = 3;
   // Motor ids for the shooters. Still need the actual IDs for the consta nts
@@ -169,7 +169,7 @@ public final class Constants {
   public static final boolean canCoderInvert = false;
 
   /* Robot centric invert */
-  public static final boolean isRobotCentric = false;
+  public static final boolean isRobotCentric = false; 
 
   /* Front Left Module - Module 0 */
   public static final class FrontLeftKrakenModule {
