@@ -27,166 +27,127 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RevShootCommand;
 import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-//import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class RobotContainer {
-  //public static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  private static final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
-  public static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
-  public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
-  private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
-  private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
+    public static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+    private static final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
+    public static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
+    public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
+    private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
+    private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
 
-  public final JoystickButton dr_aButton = new JoystickButton(m_driverController, Button.kA.value);
-  public final JoystickButton dr_bButton = new JoystickButton(m_driverController, Button.kB.value);
-  public final JoystickButton dr_xButton = new JoystickButton(m_driverController, Button.kX.value);
-  public final JoystickButton dr_yButton = new JoystickButton(m_driverController, Button.kY.value);
+    public final JoystickButton dr_aButton = new JoystickButton(m_driverController, Button.kA.value);
+    public final JoystickButton dr_bButton = new JoystickButton(m_driverController, Button.kB.value);
+    public final JoystickButton dr_xButton = new JoystickButton(m_driverController, Button.kX.value);
+    public final JoystickButton dr_yButton = new JoystickButton(m_driverController, Button.kY.value);
 
-  public final JoystickButton dr_leftBumper = new JoystickButton(m_driverController, Button.kLeftBumper.value);
-  public final JoystickButton dr_rightBumper = new JoystickButton(m_driverController, Button.kRightBumper.value);
-  public final JoystickButton dr_startButton = new JoystickButton(m_driverController, Button.kStart.value);
+    public final JoystickButton dr_leftBumper = new JoystickButton(m_driverController, Button.kLeftBumper.value);
+    public final JoystickButton dr_rightBumper = new JoystickButton(m_driverController, Button.kRightBumper.value);
+    public final JoystickButton dr_startButton = new JoystickButton(m_driverController, Button.kStart.value);
 
-  public final JoystickButton op_aButton = new JoystickButton(m_operatorController, Button.kA.value);
-  public final JoystickButton op_bButton = new JoystickButton(m_operatorController, Button.kB.value);
-  public final JoystickButton op_xButton = new JoystickButton(m_operatorController, Button.kX.value);
-  public final JoystickButton op_yButton = new JoystickButton(m_operatorController, Button.kY.value);
+    public final JoystickButton op_aButton = new JoystickButton(m_operatorController, Button.kA.value);
+    public final JoystickButton op_bButton = new JoystickButton(m_operatorController, Button.kB.value);
+    public final JoystickButton op_xButton = new JoystickButton(m_operatorController, Button.kX.value);
+    public final JoystickButton op_yButton = new JoystickButton(m_operatorController, Button.kY.value);
 
-  public final POVButton op_UpDpad = new POVButton(m_operatorController, 0);
-  public final POVButton op_DownDpad = new POVButton(m_operatorController, 180);
-  public final POVButton op_LeftDpad = new POVButton(m_operatorController, 270);
-  public final POVButton op_RightDpad = new POVButton(m_operatorController, 90);
+    public final POVButton op_UpDpad = new POVButton(m_operatorController, 0);
+    public final POVButton op_DownDpad = new POVButton(m_operatorController, 180);
+    public final POVButton op_LeftDpad = new POVButton(m_operatorController, 270);
+    public final POVButton op_RightDpad = new POVButton(m_operatorController, 90);
 
-  public final JoystickButton op_leftBumper = new JoystickButton(m_operatorController, Button.kLeftBumper.value);
-  public final JoystickButton op_rightBumper = new JoystickButton(m_operatorController, Button.kRightBumper.value);
+    public final JoystickButton op_leftBumper = new JoystickButton(m_operatorController, Button.kLeftBumper.value);
+    public final JoystickButton op_rightBumper = new JoystickButton(m_operatorController, Button.kRightBumper.value);
 
-  public SendableChooser<Command> m_chooser;
-  Timer timer = new Timer();
-  double time = 0.0;
+    public SendableChooser<Command> m_chooser;
+    Timer timer = new Timer();
+    double time = 0.0;
 
-  public RobotContainer() {
-    m_drivetrainSubsystem.setDefaultCommand(
-        new DefaultDriveCommand(
-            m_drivetrainSubsystem,
-            () -> (m_driverController.getLeftY()),
-            () -> (m_driverController.getLeftX()),
-            () -> (m_driverController.getRightX()),
-            () -> Constants.isRobotCentric,
-            () -> !dr_rightBumper.getAsBoolean(),
-            () -> m_driverController.getPOV()));
-    configureCompControllerBindings(); //change to configure comp!!!!!!!!!!
-    configureAutoChooser();
+    public RobotContainer() {
+        m_drivetrainSubsystem.setDefaultCommand(
+                new DefaultDriveCommand(
+                        m_drivetrainSubsystem,
+                        () -> (m_driverController.getLeftY()),
+                        () -> (m_driverController.getLeftX()),
+                        () -> (m_driverController.getRightX()),
+                        () -> Constants.isRobotCentric,
+                        () -> dr_rightBumper.getAsBoolean(),
+                        () -> m_driverController.getPOV()));
+        configureCompControllerBindings();
+        configureAutoChooser();
 
-  }
+    }
 
-  public Command getAutonomousCommand() {
+    public Command getAutonomousCommand() {
 
-    // return new SequentialCommandGroup(
-    //     new InstantCommand(() -> 
-    // m_shooterSubsytem.spinShoot(),
-    // m_shooterSubsytem),
-    // new WaitCommand(2),
-    // new InstantCommand(() -> 
-    // m_shooterSubsytem.spinIndex(),
-    // m_shooterSubsytem),
-    // new WaitCommand(6),
-    // new InstantCommand(() ->
-    // m_shooterSubsytem.stopIndex(),
-    // m_shooterSubsytem),
-    // new InstantCommand(() -> 
-    // m_shooterSubsytem.stopShoot(),
-    // m_shooterSubsytem)
-    // );
-    return null;
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> m_shooterSubsytem.spinShoot(),
+                        m_shooterSubsytem),
+                new WaitCommand(2),
+                new InstantCommand(() -> m_shooterSubsytem.spinIndex(),
+                        m_shooterSubsytem),
+                new WaitCommand(6),
+                new InstantCommand(() -> m_shooterSubsytem.stopIndex(),
+                        m_shooterSubsytem),
+                new InstantCommand(() -> m_shooterSubsytem.stopShoot(),
+                        m_shooterSubsytem));
+    }
 
-  }
+    private void configureTestControllerBindings() {
+    }
 
-  //private void configureTestControllerBindings() {
-    // op_leftBumper.toggleOnTrue(new ShooterCommandOne(shooterSubsystem));
-    // op_rightBumper.toggleOnTrue(new ShooterCommandTwo(shooterSubsystem));
-    // op_aButton.toggleOnTrue(new ShooterCommandBoth(shooterSubsystem));
+    private void configureCompControllerBindings() {
+        // new Trigger(() ->
+        // m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
+        // new Trigger(() ->
+        // m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld());
+        // new Trigger(() -> m_operatorController.getAButton()).whileTrue(new
+        // IntakeCommand(m_IntakeSubsystem));
+        // new Trigger(() -> m_operatorCont
+        // roller.getYButton())
+        // .onTrue(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(),
+        // m_shooterSubsytem));
+        // new Trigger(() -> m_operatorController.getXButton())
+        // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(),
+        // m_IntakeSubsystem));
 
-    // bumpers bttons call the shooter command individually or using the A button it
-    // sets both. Speed is set as a constant in Constants
-    // new Trigger(() -> m_driverController.getLeftBumperButton()).toggleOnTrue(new
-    // ShooterCommandOne(shooterSubsystem))
-    // new Trigger(() -> m_driverController.getRightBumperButton()).toggleOnTrue(new
-    // ShooterCommandTwo(shooterSubsystem));
-   // new Trigger(() -> m_driverController.getBButton()).onTrue(new StowIntakeCommand(m_IntakeSubsystem));
-    //new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
-    // new Trigger(() -> m_operatorController.getXButton())
-     //onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(),
-     //m_IntakeSubsystem));
+        // DRIVER CONTROLS
+        // new Trigger(() -> dr_aButton.getAsBoolean())
+        // .onTrue(Commands.runOnce(() -> m_drivetrainSubsystem.zeroGyro(),
+        // m_drivetrainSubsystem));
 
-   // new Trigger(() -> m_operatorController.getYButton())
-       // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
-    //ew Trigger(() -> m_operatorController.getYButton())
-        //.onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
-    //new Trigger(() -> m_operatorController.getAButton())
-        //.onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
-    // new Trigger(() -> m_operatorController.getBButton())
-    // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(),
-    // m_IntakeSubsystem));
-//     new Trigger(() -> m_operatorController.getBButton())
-//         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));//this
-//     new Trigger(() -> m_operatorController.getBButton())
-//         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));//this
-//     new Trigger(() -> m_operatorController.getXButton())
-//         .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));//this
-//     new Trigger(() -> m_operatorController.getXButton())
-//         .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));//this
-//     new Trigger(() -> op_DownDpad.getAsBoolean())
-//         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(-2), m_ClimberSubsystem));
-//     new Trigger(() -> op_UpDpad.getAsBoolean())
-//         .onTrue(Commands.runOnce(() -> m_ClimberSubsystem.manualMove(2), m_ClimberSubsystem));
- // }
+        // OPERATOR CONTROL
+        new Trigger(() -> m_operatorController.getBButton())
+                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
+        new Trigger(() -> m_operatorController.getBButton())
+                .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
+        new Trigger(() -> m_operatorController.getYButton())
+                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
+        new Trigger(() -> m_operatorController.getAButton())
+                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
+        new Trigger(() -> m_operatorController.getXButton())
+                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
+        new Trigger(() -> m_operatorController.getRightBumperButton())
+                .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopOutTake(), m_IntakeSubsystem));
+        new Trigger(() -> m_operatorController.getRightBumperButton())
+                .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));
+        new Trigger(() -> m_operatorController.getRightBumperButton())
+                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));
+        // DRIVER CONTROL
+        new Trigger(() -> m_driverController.getRightBumperButton())
+                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.shootWhileHeld(), m_shooterSubsytem));
+        new Trigger(() -> m_driverController.getLeftBumperButton())
+                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));
 
-  private void configureCompControllerBindings() {
-    //new Trigger(() -> m_operatorController.getRightBumper()).whileTrue(m_shooterSubsytem.shootWhileHeld());
-    //new Trigger(() -> m_operatorController.getLeftBumper()).whileTrue(m_shooterSubsytem.loadWhileHeld());
-    //new Trigger(() -> m_operatorController.getAButton()).whileTrue(new IntakeCommand(m_IntakeSubsystem));
-    // new Trigger(() -> m_operatorCont
-    //roller.getYButton())
-    //     .onTrue(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));//this
-     // new Trigger(() -> m_operatorController.getXButton())
-    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
-    //DRIVER CONTROLS
-    new Trigger(() -> dr_aButton.getAsBoolean())
-        .onTrue(Commands.runOnce(() -> m_drivetrainSubsystem.zeroGyro(), m_drivetrainSubsystem));
-    // new Trigger(() -> dr_xButton.getAsBoolean())
-    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.retract(), m_IntakeSubsystem));
-    // new Trigger(() -> dr_bButton.getAsBoolean())
-    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
+    }
 
-    //OPERATOR CONTROLS
-    new Trigger(() -> m_operatorController.getBButton())//this
-        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));//this
-    new Trigger(() -> m_operatorController.getBButton())
-        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));//this
-    new Trigger(() -> m_operatorController.getYButton())
-        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));//this
-    new Trigger(() -> m_operatorController.getYButton())
-        .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));//this
-    new Trigger(() -> m_operatorController.getXButton())
-        .onTrue(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));//this
-    // new Trigger(() -> m_operatorController.getAButton())
-    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.intake(), m_IntakeSubsystem));
-    // new Trigger(() -> m_operatorController.getAButton())
-    //     .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopIntake(), m_IntakeSubsystem));
-    // new Trigger(() -> m_operatorController.getRightBumperButton())
-    //     .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
-    // new Trigger(() -> m_operatorController.getRightBumperButton())
-    //     .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopOutTake(), m_IntakeSubsystem));
-        
-  }
-
-
-  private void configureAutoChooser() {
-    m_chooser = new SendableChooser<>();
-    SmartDashboard.putData("Auto Mode", m_chooser);
-    // m_chooser.addOption("Autonomous", scoreCoral(ReefDirection.LEFT,
-    // ReefLevel.L2));
-  }
+    private void configureAutoChooser() {
+        m_chooser = new SendableChooser<>();
+        SmartDashboard.putData("Auto Mode", m_chooser);
+        // m_chooser.addOption("Autonomous", scoreCoral(ReefDirection.LEFT,
+        // ReefLevel.L2));
+    }
 
 }

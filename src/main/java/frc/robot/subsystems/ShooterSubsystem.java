@@ -4,9 +4,13 @@
 
 package frc.robot.subsystems;
 
+import java.lang.ModuleLayer.Controller;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
@@ -23,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public final SparkFlex leaderMotor = new SparkFlex(Constants.SHOOTER_ONE_MOTOR_ID, MotorType.kBrushless);
   public final SparkFlex followerMotor = new SparkFlex(Constants.SHOOTER_TWO_MOTOR_ID, MotorType.kBrushless);
   public final SparkFlex indexMotor = new SparkFlex(Constants.SHOOTER_INDEXER_ID, MotorType.kBrushless);
-
+  public final SparkClosedLoopController leaderController = leaderMotor.getClosedLoopController();
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {
     SparkFlexConfig leaderConfig = new SparkFlexConfig();
@@ -31,6 +35,11 @@ public class ShooterSubsystem extends SubsystemBase {
         .idleMode(IdleMode.kCoast)
         .voltageCompensation(12)
         .smartCurrentLimit(70);
+    leaderConfig.closedLoop
+    .p(0.0002)
+    .i(0)
+    .d(0)
+    .outputRange(-1, 1);
     leaderMotor.configure(leaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     SparkFlexConfig followerConfig = new SparkFlexConfig();
@@ -47,8 +56,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void spinShoot() {
-    //leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
-    leaderMotor.set(-.8);
+    // leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
+    leaderController.setSetpoint(-5000.0, ControlType.kVelocity);
+    //leaderMotor.set(-.8);
   }
 
   public void loadShoot() {

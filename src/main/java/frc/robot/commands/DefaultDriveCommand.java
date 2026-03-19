@@ -51,7 +51,7 @@ public class DefaultDriveCommand extends Command {
     this.strafeSupplier = strafeSupplier;
     this.rotationSupplier = rotationSupplier;
     this.isRobotCentricSupplier = isRobotCentricSupplier;
-    this.isSlowMode = isSlowModeSupplier;
+     this.isSlowMode = isSlowModeSupplier;
     m_POVSupplier = POVSupplier;
   }
 
