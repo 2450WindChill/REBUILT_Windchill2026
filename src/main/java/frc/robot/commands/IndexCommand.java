@@ -6,20 +6,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.subsystems.IndexSubsystem;
 //import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class IndexCommand extends Command {
   @SuppressWarnings("PMD.UnusedPrivateField")
-  private final ShooterSubsystem m_subsystem;
+  private final IndexSubsystem m_subsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IndexCommand(ShooterSubsystem subsystem) {
+  public IndexCommand(IndexSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

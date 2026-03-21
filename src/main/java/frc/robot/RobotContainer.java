@@ -27,6 +27,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RevShootCommand;
 import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -35,6 +36,7 @@ public class RobotContainer {
     public static final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
     private static final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
     public static final ShooterSubsystem m_shooterSubsytem = new ShooterSubsystem();
+    public static final IndexSubsystem m_indexSubsytem = new IndexSubsystem();
     public final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(SwerveMode.KRAKEN);
     private final XboxController m_driverController = new XboxController(ControllerConstants.kDriverControllerPort);
     private final XboxController m_operatorController = new XboxController(ControllerConstants.kOperatorControllerPort);
@@ -61,6 +63,7 @@ public class RobotContainer {
     public final JoystickButton op_leftBumper = new JoystickButton(m_operatorController, Button.kLeftBumper.value);
     public final JoystickButton op_rightBumper = new JoystickButton(m_operatorController, Button.kRightBumper.value);
 
+    private Boolean slowModeState = false;
     public SendableChooser<Command> m_chooser;
     Timer timer = new Timer();
     double time = 0.0;
@@ -73,11 +76,21 @@ public class RobotContainer {
                         () -> (m_driverController.getLeftX()),
                         () -> (m_driverController.getRightX()),
                         () -> Constants.isRobotCentric,
-                        () -> dr_rightBumper.getAsBoolean(),
+                        () -> getSlowMode(),
                         () -> m_driverController.getPOV()));
         configureCompControllerBindings();
         configureAutoChooser();
+    }
 
+    public Boolean getSlowMode()
+    {
+
+        return slowModeState;
+    }
+
+    public void setSlowMode(Boolean slowMode)
+    {
+        slowModeState = slowMode;
     }
 
     public Command getAutonomousCommand() {
@@ -86,10 +99,10 @@ public class RobotContainer {
                 new InstantCommand(() -> m_shooterSubsytem.spinShoot(),
                         m_shooterSubsytem),
                 new WaitCommand(2),
-                new InstantCommand(() -> m_shooterSubsytem.spinIndex(),
+                new InstantCommand(() -> m_indexSubsytem.spinIndex(),
                         m_shooterSubsytem),
                 new WaitCommand(6),
-                new InstantCommand(() -> m_shooterSubsytem.stopIndex(),
+                new InstantCommand(() -> m_indexSubsytem.stopIndex(),
                         m_shooterSubsytem),
                 new InstantCommand(() -> m_shooterSubsytem.stopShoot(),
                         m_shooterSubsytem));
@@ -129,18 +142,33 @@ public class RobotContainer {
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem));
         new Trigger(() -> m_operatorController.getXButton())
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.outTake(), m_IntakeSubsystem));
-        new Trigger(() -> m_operatorController.getRightBumperButton())
+        new Trigger(() -> m_operatorController.getXButton())
                 .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopOutTake(), m_IntakeSubsystem));
         new Trigger(() -> m_operatorController.getRightBumperButton())
-                .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinIndex(), m_shooterSubsytem));
+                .onTrue(Commands.runOnce(() -> m_indexSubsytem.spinIndex(), m_shooterSubsytem));
         new Trigger(() -> m_operatorController.getRightBumperButton())
-                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopIndex(), m_shooterSubsytem));
-        // DRIVER CONTROL
-        new Trigger(() -> m_driverController.getRightBumperButton())
-                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.shootWhileHeld(), m_shooterSubsytem));
-        new Trigger(() -> m_driverController.getLeftBumperButton())
-                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.reverseIndex(), m_shooterSubsytem));
+                .onFalse(Commands.runOnce(() -> m_indexSubsytem.stopIndex(), m_shooterSubsytem));
+                
+        new Trigger(() -> m_operatorController.getLeftBumperButton())
+                .onTrue(Commands.runOnce(() -> m_indexSubsytem.reverseIndex(), m_shooterSubsytem));
+        new Trigger(() -> m_operatorController.getLeftBumperButton())
+                .onFalse(Commands.runOnce(() -> m_indexSubsytem.stopIndex(), m_shooterSubsytem));
 
+        new Trigger(() -> m_operatorController.getRightTriggerAxis() > 0.3)
+                .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));
+        new Trigger(() -> m_operatorController.getRightTriggerAxis() > 0.3)
+                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));
+        // DRIVER CONTROL
+        new Trigger(() -> m_driverController.getAButton())
+                .onTrue(Commands.runOnce(() -> m_drivetrainSubsystem.zeroGyro(), m_drivetrainSubsystem));
+        new Trigger(() -> m_driverController.getBButton())
+                .onTrue(Commands.runOnce(() -> setSlowMode(!slowModeState))); //TEST
+        new Trigger(() -> m_driverController.getRightBumperButton())
+                .whileTrue(shootWhileHeld());
+        new Trigger(() -> m_driverController.getLeftBumperButton())
+                .onTrue(Commands.runOnce(() -> m_indexSubsytem.reverseIndex(), m_indexSubsytem));
+        new Trigger(() -> m_driverController.getLeftBumperButton())
+                .onFalse(Commands.runOnce(() -> m_indexSubsytem.stopIndex(), m_indexSubsytem));
     }
 
     private void configureAutoChooser() {
@@ -149,5 +177,31 @@ public class RobotContainer {
         // m_chooser.addOption("Autonomous", scoreCoral(ReefDirection.LEFT,
         // ReefLevel.L2));
     }
+
+    public Command shootWhileHeld() {
+        // return Commands.sequence(
+        // this.runOnce(() -> spinShoot()),
+        // Commands.waitUntil(this::atSpeed),
+        // Commands.startEnd(this::spinIndex, this::stopIndex, this))
+        // .finallyDo(interupted -> {
+        // stopIndex();
+        // stopShoot();
+        // });
+        Trigger readyToFeed = new Trigger(m_shooterSubsytem::atSpeed).debounce(0.1);
+          return Commands.startEnd(m_shooterSubsytem::spinShoot, m_shooterSubsytem::stopShoot, m_shooterSubsytem)
+            .alongWith(
+                Commands.startEnd(m_indexSubsytem::spinIndex, m_indexSubsytem::stopIndex, m_indexSubsytem)
+                    .onlyWhile(readyToFeed));
+      }
+    
+//       public Command loadWhileHeld() {
+//         return Commands.sequence(
+//             this.runOnce(() -> m_shooterSubsytem.loadShoot()),
+//             Commands.startEnd(m_indexSubsytem::spinIndex, m_indexSubsytem::stopIndex, m_indexSubsytem))
+//             .finallyDo(interupted -> {
+//               stopIndex();
+//               stopShoot();
+//             });
+//       }
 
 }
