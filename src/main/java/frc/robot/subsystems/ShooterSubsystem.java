@@ -104,11 +104,11 @@ public class ShooterSubsystem extends SubsystemBase {
     return atSpeed;
   }
 
-  public boolean atLoadSpeed() {
-    double shooter_rpm = leaderMotor.getEncoder().getVelocity();
-    boolean atLoadSpeed = Math.abs(shooter_rpm - 3400) <= Constants.RPM_TOLERANCE;
-    return atLoadSpeed;
-  }
+  // public boolean atLoadSpeed() {
+  //   double shooter_rpm = leaderMotor.getEncoder().getVelocity();
+  //   boolean atLoadSpeed = Math.abs(shooter_rpm - 3400) <= Constants.RPM_TOLERANCE;
+  //   return atLoadSpeed;
+  // }
 
   /**
    * Example command factory method.
