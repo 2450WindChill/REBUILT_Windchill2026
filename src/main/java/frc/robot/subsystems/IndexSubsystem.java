@@ -49,6 +49,11 @@ public class IndexSubsystem extends SubsystemBase {
     indexMotor.setVoltage(Constants.REVERSE_INDEX_VOLTAGE);
   }
 
+  public void reverseIndexFullSpeed() {
+    indexMotor.set(1);
+  }
+
+
   public void stopIndex() {
     indexMotor.setVoltage(0);
   }

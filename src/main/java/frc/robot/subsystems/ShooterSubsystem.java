@@ -62,6 +62,20 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
+  public void autoSpinShoot() {
+    // leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
+    leaderController.setSetpoint(Constants.AUTO_TARGET_SHOOTER_RPM, ControlType.kVelocity);
+    // leaderMotor.set(-.8);
+
+  }
+
+  public void reverseSpinShoot() {
+    // leaderMotor.setVoltage(Constants.SHOOTER_VOLTAGE);
+    leaderController.setSetpoint(-(Constants.REVERSE_SHOOTER), ControlType.kDutyCycle);
+    // leaderMotor.set(-.8);
+
+  }
+
   public void loadShoot() {
     leaderMotor.setVoltage(Constants.LOAD_SHOOTER_VOLTAGE);
   }

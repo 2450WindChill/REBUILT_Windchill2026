@@ -25,6 +25,7 @@ import frc.robot.Constants.SwerveMode;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RevShootCommand;
+import frc.robot.commands.UnstuckCommand;
 import frc.robot.commands.StowIntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -95,17 +96,27 @@ public class RobotContainer {
 
         public Command getAutonomousCommand() {
 
-                return new SequentialCommandGroup(
-                                new InstantCommand(() -> m_shooterSubsytem.spinShoot(),
-                                                m_shooterSubsytem),
-                                new WaitCommand(2),
-                                new InstantCommand(() -> m_indexSubsytem.spinIndex(),
-                                                m_shooterSubsytem),
-                                new WaitCommand(6),
-                                new InstantCommand(() -> m_indexSubsytem.stopIndex(),
-                                                m_shooterSubsytem),
-                                new InstantCommand(() -> m_shooterSubsytem.stopShoot(),
-                                                m_shooterSubsytem));
+                //return new SequentialCommandGroup(
+                        // new InstantCommand(() -> m_IntakeSubsystem.deploy(), m_IntakeSubsystem),
+                        // new InstantCommand(() -> m_shooterSubsytem.autoSpinShoot(), m_shooterSubsytem),
+
+                        // new WaitCommand(1),
+                        // new InstantCommand(() -> m_indexSubsytem.reverseIndexFullSpeed(), m_indexSubsytem),
+
+                        // new WaitCommand(1),
+                        // new InstantCommand(() -> m_indexSubsytem.spinIndex(), m_indexSubsytem),
+
+                        // new WaitCommand(10),
+                        // new InstantCommand(() -> m_indexSubsytem.reverseIndexFullSpeed(), m_indexSubsytem),
+
+                        // new WaitCommand(1),
+                        // new InstantCommand(() -> m_indexSubsytem.spinIndex(), m_indexSubsytem),
+
+                        // new WaitCommand(10),
+
+                        // new InstantCommand(() -> m_indexSubsytem.stopIndex(), m_indexSubsytem),
+                        // new InstantCommand(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));
+                        return null;
         }
 
         private void configureTestControllerBindings() {
@@ -146,27 +157,30 @@ public class RobotContainer {
                                 .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopOutTake(), m_IntakeSubsystem));
 
                 // DRIVER CONTROL
-                new Trigger(() -> m_driverController.getAButton())// this is right
+                new Trigger(() -> m_driverController.getAButton())
                                 .onTrue(Commands.runOnce(() -> m_drivetrainSubsystem.zeroGyro(),
                                                 m_drivetrainSubsystem));
-                new Trigger(() -> m_driverController.getBButton())// this is right
+                new Trigger(() -> m_driverController.getBButton())
                                 .onTrue(Commands.runOnce(() -> setSlowMode(!slowModeState))); // TEST
-                // new Trigger(() -> m_driverController.getRightBumperButton())// this is WRONG
-                //                 .whileTrue(shootWhileHeld());
-                new Trigger(() -> m_driverController.getLeftBumperButton()) // this is right
-                                .onTrue(Commands.runOnce(() -> m_indexSubsytem.reverseIndex(), m_shooterSubsytem));
+                // new Trigger(() -> m_driverController.getRightBumperButton())
+                // .whileTrue(shootWhileHeld());
                 new Trigger(() -> m_driverController.getLeftBumperButton())
-                                .onFalse(Commands.runOnce(() -> m_indexSubsytem.stopIndex(), m_shooterSubsytem));
+                                .onTrue(Commands.runOnce(() -> m_indexSubsytem.reverseIndex(), m_indexSubsytem));
+                new Trigger(() -> m_driverController.getLeftBumperButton())
+                                .onFalse(Commands.runOnce(() -> m_indexSubsytem.stopIndex(), m_indexSubsytem));
 
-                new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.3)// this is WRONG
+                new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.3)
                                 .onTrue(Commands.runOnce(() -> m_shooterSubsytem.spinShoot(), m_shooterSubsytem));
                 new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.3)
-                                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));// WRONG
+                                .onFalse(Commands.runOnce(() -> m_shooterSubsytem.stopShoot(), m_shooterSubsytem));
+
+                new Trigger(() -> m_driverController.getLeftTriggerAxis() > 0.3)
+                                .whileTrue(new UnstuckCommand(m_shooterSubsytem, m_indexSubsytem));
 
                 new Trigger(() -> m_driverController.getRightBumperButton())
-                                .onTrue(Commands.runOnce(() -> m_indexSubsytem.spinIndex(), m_shooterSubsytem));// WRONG
+                                .onTrue(Commands.runOnce(() -> m_indexSubsytem.spinIndex(), m_indexSubsytem));
                 new Trigger(() -> m_driverController.getRightBumperButton())
-                                .onFalse(Commands.runOnce(() -> m_indexSubsytem.stopIndex(), m_shooterSubsytem));// WRONG
+                                .onFalse(Commands.runOnce(() -> m_indexSubsytem.stopIndex(), m_indexSubsytem));
 
                 // new Trigger(() -> m_driverController.getLeftBumperButton())
                 // .onTrue(Commands.runOnce(() -> m_indexSubsytem.reverseIndex(),
@@ -210,5 +224,6 @@ public class RobotContainer {
         // stopShoot();
         // });
         // }
-
+        // notes: slow down inake reverse
+        // done
 }
